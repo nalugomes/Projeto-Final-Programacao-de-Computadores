@@ -1,22 +1,29 @@
-
 import re
 
-operação = input('Qual a operação? ')
-conta = re.search(r'^(\d)+(\+|\-|\*|\/)+(\d)$', operação)
+operação = input("Digite uma operação simples (ex: 12+5): ").replace(" ", "")
 
-a = int(conta.group(1))
-b = str(conta.group(2))
-c = int(conta.group(3))
+# Expressão regular para encontrar dois números inteiros com um operador entre eles
+padrao = r'^(\d+)([+\-*/])(\d+)$'
+conta = re.fullmatch(padrao, operação)
 
-if b == '+':
-   resultado = a + c
+if conta:
+    a = int(conta.group(1))
+    operador = conta.group(2)
+    b = int(conta.group(3))
 
-elif b == '-':
-   resultado = a - c
-
-elif b == '*':
-   resultado = a * c
+    if operador == '+':
+        resultado = a + b
+    elif operador == '-':
+        resultado = a - b
+    elif operador == '*':
+        resultado = a * b
+    elif operador == '/':
+        if b != 0:
+            resultado = a / b
+        else:
+            resultado = "Erro: divisão por zero!"
+    print(f"Resultado: {resultado}")
 else:
-   resultado = a / c
+    print("Operação inválida. Use o formato: número operador número (ex: 10+5)")
 
-print(resultado)
+
